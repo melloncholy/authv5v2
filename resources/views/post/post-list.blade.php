@@ -10,5 +10,4 @@
             </form>
         </div>
     </x-slot>
-
 </x-app-layout>
