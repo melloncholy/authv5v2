@@ -14,18 +14,10 @@
     <div class="content">
         <div class="user-information h-2">
             <table>
-                @foreach ($posts as $post)
+                @foreach ($drafts as $draft)
                 <tr>
-                    <td>{{ $post->title }}</td>
-                    <td>{{ $post->preview }}</td>
-                    <th>Author:</th>
-                    <td>{{ $post->user_id }}</td>
-                    <th>Likes:</th>
-                    <td>{{ $post->likes }}</td>
-                    <th>Dislikes:</th>
-                    <td>{{ $post->dislikes }}</td>
-                    <th>Published at:</th>
-                    <td>{{ $post->published_at }}</td>
+                <td><a href="/post/draft/{{ $draft->id }}">{{  $draft->title }}</a></td>
+                    <td>{{ $draft->preview }}</td>
                 </tr>
                 @endforeach
               </table>

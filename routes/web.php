@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\MessagesController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\Profile\ProfileSettingsController;
 use App\Http\Controllers\Profile\ShowProfileController;
+use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\Post\DraftController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,17 +41,7 @@ Route::post('/profile-settings', [ProfileSettingsController::class, 'update'])
         ->name('change.profile')
         ->middleware('auth');
 
-// Route::get('/messages', [MessagesController::class, 'show'])
-//         ->middleware('auth');
-// Route::post('/messages', [MessagesController::class, 'create'])
-//         ->middleware('auth')
-//         ->name('create.conversation');
-// Route::get('/messages/{id}', [MessagesController::class, 'showConversation'])
-//         ->middleware('auth')
-//         ->name('messages.conversation');
-// Route::post('/messages/send', [MessagesController::class, 'sendMessage'])
-//         ->middleware('auth')
-//         ->name('messages.send');
+
 
 Route::get('/messages/create', [MessagesController::class, 'show'])
         ->middleware('auth')
@@ -71,12 +62,25 @@ Route::post('/messages/delete', [MessagesController::class, 'deleteMessage'])
         ->name('messages.delete');
 
 
-Route::get('/post', [PostController::class, 'show'])
+Route::get('/post', [PostController::class, 'index'])
     ->middleware('auth')
     ->name('show.post');
-Route::post('/post/create', [PostController::class, 'create'])
+Route::get('/post/create', [PostController::class, 'create'])
     ->middleware('auth')
     ->name('create.post');
+Route::post('/post/store', [PostController::class, 'store'])
+    ->middleware('auth')
+    ->name('store.post');
+
+Route::get('/post/draft', [DraftController::class, 'index'])
+    ->middleware('auth');
+Route::get('/post/draft/{id}', [DraftController::class, 'show'])
+    ->middleware('auth');
+Route::get('/post/draft/{id}/edit', [DraftController::class, 'edit'])
+    ->middleware('auth');
+Route::patch('/post/draft/{id}/update', [DraftController::class, 'update'])
+    ->middleware('auth')
+    ->name('update.draft');
 
 
 Route::get('/', function () {
