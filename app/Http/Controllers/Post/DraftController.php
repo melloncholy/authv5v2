@@ -32,12 +32,11 @@ class DraftController extends Controller
     public function update(Request $request, $id)
     {
         $draft = Post::find($id);
-        $draft->title = $request->name;
+        $draft->title = $request->title;
         $draft->preview = $request->preview;
         $draft->content = $request->content;
         $draft->content_html = $request->content;
         $draft->save();
-        dd($draft);
         return redirect('/post/draft/');
     }
 }

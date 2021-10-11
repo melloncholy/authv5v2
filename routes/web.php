@@ -78,7 +78,7 @@ Route::get('/post/draft/{id}', [DraftController::class, 'show'])
     ->middleware('auth');
 Route::get('/post/draft/{id}/edit', [DraftController::class, 'edit'])
     ->middleware('auth');
-Route::patch('/post/draft/{id}/update', [DraftController::class, 'update'])
+Route::post('/post/draft/{id}', [DraftController::class, 'update'])
     ->middleware('auth')
     ->name('update.draft');
 

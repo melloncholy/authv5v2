@@ -4,9 +4,8 @@
             {{ __('Post') }}
         </h2>
     </x-slot>
-    <form method="POST" action="/draft/{{ $item->id }}/update" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('update.draft', ['id' => $item->id ]) }}" enctype="multipart/form-data">
         @csrf
-        @method('patch')
         <div class="form-group">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" value="{{ $item->title }}" class="form-control">
