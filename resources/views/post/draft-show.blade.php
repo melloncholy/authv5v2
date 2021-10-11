@@ -12,6 +12,7 @@
                     <td>{{ $showDraft->title }}</td>
                     <td>{{ $showDraft->content_html }}</td>
                     <td><a href="{{ $showDraft->id }}/edit">Edit</a></td>
+                    <td><a href="{{ route('publish.draft', $showDraft->id)}}" class="btn btn-warning">Publish</a></td>
                 </tr>
               </table>
         </div>

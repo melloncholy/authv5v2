@@ -37,6 +37,16 @@ class DraftController extends Controller
         $draft->content = $request->content;
         $draft->content_html = $request->content;
         $draft->save();
+
+        return redirect('/post/draft/');
+    }
+
+    public function publish($id)
+    {
+        $draft = Post::find($id);
+        $draft->is_moderated = 1;
+        $draft->save();
+
         return redirect('/post/draft/');
     }
 }

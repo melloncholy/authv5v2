@@ -81,6 +81,9 @@ Route::get('/post/draft/{id}/edit', [DraftController::class, 'edit'])
 Route::post('/post/draft/{id}', [DraftController::class, 'update'])
     ->middleware('auth')
     ->name('update.draft');
+Route::get('/post/draft/{id}/publish', [DraftController::class, 'publish'])
+    ->middleware('auth')
+    ->name('publish.draft');
 
 
 Route::get('/', function () {
