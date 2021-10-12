@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Tag;
+use App\Models\Mark;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -15,7 +17,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::where('is_published', '=', 1)
-            ->get();
+            ->orderBy('published_at', 'desc')
+            ->paginate(10);
         return view('post.post-list', compact('posts'));
     }
 
@@ -49,5 +52,19 @@ class PostController extends Controller
                 break;
         }
         return redirect('post/');
+    }
+
+    public function show($id)
+    {
+        $showPost = Post::find($id);
+        $comments = Comment::where('post_id', '=', $showPost->id)
+            ->get();
+        $likes = Mark::where('post_id', '=', $id)
+            ->where('likes', '=', 1)
+            ->count();
+        $dislikes = Mark::where('post_id', '=', $id)
+            ->where('dislikes', '=', 1)
+            ->count();
+        return view('post.post-show', compact('showPost', 'comments', 'likes', 'dislikes'));
     }
 }

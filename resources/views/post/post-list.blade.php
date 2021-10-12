@@ -16,19 +16,16 @@
             <table>
                 @foreach ($posts as $post)
                 <tr>
-                    <td>{{ $post->title }}</td>
+                    <td><a href="/post/{{ $post->id }}" class="text-blue-500">{{  $post->title }}</a></td>
                     <td>{{ $post->preview }}</td>
                     <th>Author:</th>
-                    <td>{{ $post->user_id }}</td>
-                    <th>Likes:</th>
-                    <td>{{ $post->likes }}</td>
-                    <th>Dislikes:</th>
-                    <td>{{ $post->dislikes }}</td>
+                    <td><a href="/profile/{{ $post->user_id }}" class="text-blue-500">{{ $post->user->name }}</a></td>
                     <th>Published at:</th>
                     <td>{{ $post->published_at }}</td>
                 </tr>
                 @endforeach
               </table>
+              {{ $posts->links() }}
         </div>
     </div>
 </x-app-layout>

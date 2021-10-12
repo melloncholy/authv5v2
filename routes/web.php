@@ -8,6 +8,8 @@ use App\Http\Controllers\Profile\ProfileSettingsController;
 use App\Http\Controllers\Profile\ShowProfileController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Post\DraftController;
+use App\Http\Controllers\Post\CommentController;
+use App\Http\Controllers\Post\MarkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,20 +73,31 @@ Route::get('/post/create', [PostController::class, 'create'])
 Route::post('/post/store', [PostController::class, 'store'])
     ->middleware('auth')
     ->name('store.post');
+Route::get('/post/{id}', [PostController::class, 'show'])
+    ->middleware('auth');
+Route::get('/post/{id}/like', [MarkController::class, 'like'])
+    ->middleware('auth')
+    ->name('like.post');
+Route::get('/post/{id}/dislike', [MarkController::class, 'dislike'])
+    ->middleware('auth')
+    ->name('dislike.post');
 
-Route::get('/post/draft', [DraftController::class, 'index'])
+Route::post('post/send/{id}', [CommentController::class, 'create'])
+    ->middleware('auth')
+    ->name('send.comment');
+
+Route::get('/draft', [DraftController::class, 'index'])
     ->middleware('auth');
-Route::get('/post/draft/{id}', [DraftController::class, 'show'])
+Route::get('/draft/{id}', [DraftController::class, 'show'])
     ->middleware('auth');
-Route::get('/post/draft/{id}/edit', [DraftController::class, 'edit'])
+Route::get('/draft/{id}/edit', [DraftController::class, 'edit'])
     ->middleware('auth');
-Route::post('/post/draft/{id}', [DraftController::class, 'update'])
+Route::post('/draft/{id}', [DraftController::class, 'update'])
     ->middleware('auth')
     ->name('update.draft');
-Route::get('/post/draft/{id}/publish', [DraftController::class, 'publish'])
+Route::get('/draft/{id}/publish', [DraftController::class, 'publish'])
     ->middleware('auth')
     ->name('publish.draft');
-
 
 Route::get('/', function () {
     return view('welcome');

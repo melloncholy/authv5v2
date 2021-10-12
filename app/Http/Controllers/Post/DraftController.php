@@ -13,7 +13,8 @@ class DraftController extends Controller
         $drafts = Post::where('is_published', '=', 0)
             ->where('is_moderated', '=', 0)
             ->where('user_id', '=', auth()->user()->id)
-            ->get();
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
         return view('post.draft-list', compact('drafts'));
     }
 
@@ -38,7 +39,7 @@ class DraftController extends Controller
         $draft->content_html = $request->content;
         $draft->save();
 
-        return redirect('/post/draft/');
+        return redirect('/draft');
     }
 
     public function publish($id)
@@ -47,6 +48,6 @@ class DraftController extends Controller
         $draft->is_moderated = 1;
         $draft->save();
 
-        return redirect('/post/draft/');
+        return redirect('/draft');
     }
 }

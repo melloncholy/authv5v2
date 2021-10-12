@@ -20,6 +20,7 @@
             <div class="hidden sm:flex sm:items-center sm:ml-4"><a href="/profile">Profile</a></div>
             <div class="hidden sm:flex sm:items-center sm:ml-4"><a href="/messages">Messages</a></div>
             <div class="hidden sm:flex sm:items-center sm:ml-4"><a href="/post">Posts</a></div>
+            <div class="hidden sm:flex sm:items-center sm:ml-4"><a href="/draft">Drafts</a></div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">

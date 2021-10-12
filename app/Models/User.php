@@ -58,6 +58,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Conversation::class, 'accesses');
     }
 
+    public function posts() {
+        return $this->hasMany(Post::class);
+    }
+
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getUserName($id) {
         return $this->find($id)->first();
     }

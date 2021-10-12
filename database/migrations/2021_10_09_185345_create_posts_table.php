@@ -21,8 +21,6 @@ class CreatePostsTable extends Migration
             $table->string('preview');
             $table->integer('user_id');
             $table->integer('category_id')->nullable();
-            $table->integer('likes')->default(0);
-            $table->integer('dislikes')->default(0);
             $table->integer('is_moderated')->default(0);
             $table->integer('is_published')->default(0);
             $table->timestamp('published_at')->nullable();
