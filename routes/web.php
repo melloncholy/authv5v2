@@ -10,6 +10,7 @@ use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Post\DraftController;
 use App\Http\Controllers\Post\CommentController;
 use App\Http\Controllers\Post\MarkController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,11 @@ Route::get('/post/create', [PostController::class, 'create'])
 Route::post('/post/store', [PostController::class, 'store'])
     ->middleware('auth')
     ->name('store.post');
+Route::get('/post/moderation', [PostController::class, 'showUnpublished'])
+    ->middleware('auth');
+Route::get('/post/unpublished/{id}', [PostController::class, 'publish'])
+    ->middleware('auth')
+    ->name('publish.post');
 Route::get('/post/{id}', [PostController::class, 'show'])
     ->middleware('auth');
 Route::get('/post/{id}/like', [MarkController::class, 'like'])
@@ -81,6 +87,7 @@ Route::get('/post/{id}/like', [MarkController::class, 'like'])
 Route::get('/post/{id}/dislike', [MarkController::class, 'dislike'])
     ->middleware('auth')
     ->name('dislike.post');
+
 
 Route::post('post/send/{id}', [CommentController::class, 'create'])
     ->middleware('auth')
@@ -98,6 +105,14 @@ Route::post('/draft/{id}', [DraftController::class, 'update'])
 Route::get('/draft/{id}/publish', [DraftController::class, 'publish'])
     ->middleware('auth')
     ->name('publish.draft');
+
+Route::get('/users', [UserController::class, 'index'])
+    ->middleware('auth');
+Route::get('/users/create', [UserController::class, 'create'])
+    ->middleware('auth');
+Route::post('/users/create', [UserController::class, 'store'])
+    ->middleware('auth')
+    ->name('create.user');
 
 Route::get('/', function () {
     return view('welcome');

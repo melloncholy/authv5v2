@@ -51,7 +51,7 @@ class PostController extends Controller
                 ]);
                 break;
         }
-        return redirect('post/');
+        return back();
     }
 
     public function show($id)
@@ -66,5 +66,23 @@ class PostController extends Controller
             ->where('dislikes', '=', 1)
             ->count();
         return view('post.post-show', compact('showPost', 'comments', 'likes', 'dislikes'));
+    }
+
+    public function showUnpublished()
+    {
+        $posts = Post::where('is_published', '=', 0)
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+        return view('post.unpublished-post-list', compact('posts'));
+    }
+
+    public function publish($id)
+    {
+        $post = Post::find($id);
+        $post->is_published = 1;
+        $post->save();
+
+        return redirect('post/moderation');
     }
 }

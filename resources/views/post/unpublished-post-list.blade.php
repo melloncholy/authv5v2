@@ -8,7 +8,6 @@
                 @csrf
                 <button type="submit" class="btn btn-primary">Создать статью</button>
             </form>
-            <div class="absolute hidden sm:flex right-40 top-5 sm:items-center sm:m1-4"><a href="/post/moderation">Moderation</a></div>
         </div>
     </x-slot>
 
@@ -21,8 +20,8 @@
                     <td>{{ $post->preview }}</td>
                     <th>Author:</th>
                     <td><a href="/profile/{{ $post->user_id }}" class="text-blue-500">{{ $post->user->name }}</a></td>
-                    <th>Published at:</th>
-                    <td>{{ $post->published_at }}</td>
+                    <th>Updated at:</th>
+                    <td>{{ $post->updated_at }}</td>
                 </tr>
                 @endforeach
               </table>

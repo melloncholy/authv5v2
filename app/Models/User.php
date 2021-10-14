@@ -50,6 +50,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
     public function messages()
     {
         return $this->belongsTo(Message::class);
@@ -65,6 +70,11 @@ class User extends Authenticatable
 
     public function comments() {
         return $this->hasMany(Comment::class);
+    }
+
+    public function hasPermission($name)
+    {
+        return $this->role->permissions()->where('name', $name)->exists();
     }
 
     public function getUserName($id) {

@@ -13,6 +13,7 @@
                     <td>{{ $showPost->content_html }}</td>
                     <th>Author:</th>
                     <td><a href="/profile/{{ $showPost->user_id }}">{{ $showPost->user->name }}</a></td>
+                    @if ($showPost->is_published == 1)
                     <td>
                         <a href="{{ route('like.post', ['id' => $showPost->id]) }}" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Likes:{{ $likes }}
@@ -25,6 +26,13 @@
                     </td>
                     <th>Published at:</th>
                     <td>{{ $showPost->published_at }}</td>
+                    @else
+                    <td>
+                        <a href="{{ route('publish.post', ['id' => $showPost->id]) }}" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Publish
+                        </a>
+                    </td>
+                    @endif
                 </tr>
               </table>
         </div>
