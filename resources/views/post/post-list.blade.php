@@ -8,7 +8,10 @@
                 @csrf
                 <button type="submit" class="btn btn-primary">Создать статью</button>
             </form>
+            @can('showUnpublished', App\Models\Post::class)
             <div class="absolute hidden sm:flex right-40 top-5 sm:items-center sm:m1-4"><a href="/post/moderation">Moderation</a></div>
+            @endcan
+
         </div>
     </x-slot>
 
@@ -26,7 +29,9 @@
                 </tr>
                 @endforeach
               </table>
-              {{ $posts->links() }}
+            <div class="absolute hidden sm:flex left-40 bottom-20 sm:items-center sm:m1-4">
+                  {{ $posts->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>

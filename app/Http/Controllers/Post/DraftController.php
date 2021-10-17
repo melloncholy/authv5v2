@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Post;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Michelf\Markdown;
 
 class DraftController extends Controller
 {
@@ -32,11 +33,13 @@ class DraftController extends Controller
 
     public function update(Request $request, $id)
     {
+		$post_html = Markdown::defaultTransform($request->content);
+
         $draft = Post::find($id);
         $draft->title = $request->title;
         $draft->preview = $request->preview;
         $draft->content = $request->content;
-        $draft->content_html = $request->content;
+        $draft->content_html = $post_html;
         $draft->save();
 
         return redirect('/draft');

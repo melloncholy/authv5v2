@@ -29,8 +29,16 @@ class PostPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user, Post $post)
-    {
-        //
+    {   $query = $post->where('id', '=', $post->id)
+            ->where('is_published', '=', 0)->exists();
+        if ($query) {
+
+            return $user->hasPermission('manage.post');
+        } else {
+
+            return true;
+        }
+
     }
 
     /**
@@ -78,6 +86,12 @@ class PostPolicy
     public function restore(User $user, Post $post)
     {
         //
+    }
+
+
+    public function showUnpublished(User $user)
+    {
+        return $user->hasPermission('manage.post');
     }
 
     /**

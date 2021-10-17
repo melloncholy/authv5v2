@@ -9,26 +9,26 @@
         <div class="post-content">
             <table class="table-fixed">
                 <tr>
-                    <td>{{ $showPost->title }}</td>
-                    <td>{{ $showPost->content_html }}</td>
+                    <td>{{ $post->title }}</td>
+                    <td>{{ $post->content_html }}</td>
                     <th>Author:</th>
-                    <td><a href="/profile/{{ $showPost->user_id }}">{{ $showPost->user->name }}</a></td>
-                    @if ($showPost->is_published == 1)
+                    <td><a href="/profile/{{ $post->user_id }}">{{ $post->user->name }}</a></td>
+                    @if ($post->is_published == 1)
                     <td>
-                        <a href="{{ route('like.post', ['id' => $showPost->id]) }}" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('like.post', ['id' => $post->id]) }}" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Likes:{{ $likes }}
                         </a>
                     </td>
                     <td>
-                        <a href="{{ route('dislike.post', ['id' => $showPost->id]) }}" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('dislike.post', ['id' => $post->id]) }}" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Dislikes:{{ $dislikes }}
                         </a>
                     </td>
                     <th>Published at:</th>
-                    <td>{{ $showPost->published_at }}</td>
+                    <td>{{ $post->published_at }}</td>
                     @else
                     <td>
-                        <a href="{{ route('publish.post', ['id' => $showPost->id]) }}" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('publish.post', ['id' => $post->id]) }}" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Publish
                         </a>
                     </td>
@@ -37,7 +37,7 @@
               </table>
         </div>
     </div>
-    <form method="POST" action="{{ route('send.comment', ['id' => $showPost->id ]) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('send.comment', ['id' => $post->id ]) }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <textarea placeholder="Send Comment" name = "text"></textarea>

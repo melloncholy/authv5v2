@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\Mark;
 use Illuminate\Support\Facades\DB;
+use Michelf\Markdown;
 
 class PostController extends Controller
 {
@@ -17,6 +18,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::where('is_published', '=', 1)
+			->with(['user'])
             ->orderBy('published_at', 'desc')
             ->paginate(10);
         return view('post.post-list', compact('posts'));
@@ -28,13 +30,14 @@ class PostController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   $post_html = Markdown::defaultTransform($request->content);
+		
         switch ($request->input('action')) {
             case 'save':
                 Post::create([
                     'title' => $request->title,
                     'content' => $request->content,
-                    'content_html' => $request->content,
+                    'content_html' => $post_html,
                     'preview' => $request->preview,
                     'user_id' => auth()->user()->id,
                 ]);
@@ -44,7 +47,7 @@ class PostController extends Controller
                 Post::create([
                     'title' => $request->title,
                     'content' => $request->content,
-                    'content_html' => $request->content,
+                    'content_html' => $post_html,
                     'preview' => $request->preview,
                     'user_id' => auth()->user()->id,
                     'is_moderated' => 1,
@@ -56,8 +59,10 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $showPost = Post::find($id);
-        $comments = Comment::where('post_id', '=', $showPost->id)
+
+        $post = Post::find($id);
+        $this->authorize('view', $post);
+        $comments = Comment::where('post_id', '=', $post->id)
             ->get();
         $likes = Mark::where('post_id', '=', $id)
             ->where('likes', '=', 1)
@@ -65,11 +70,13 @@ class PostController extends Controller
         $dislikes = Mark::where('post_id', '=', $id)
             ->where('dislikes', '=', 1)
             ->count();
-        return view('post.post-show', compact('showPost', 'comments', 'likes', 'dislikes'));
+        return view('post.post-show', compact('post', 'comments', 'likes', 'dislikes'));
     }
 
     public function showUnpublished()
     {
+        $this->authorize('showUnpublished', Post::class);
+
         $posts = Post::where('is_published', '=', 0)
         ->orderBy('created_at', 'desc')
         ->paginate(10);
