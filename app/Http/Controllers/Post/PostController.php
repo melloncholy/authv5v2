@@ -10,7 +10,7 @@ use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\Mark;
 use Illuminate\Support\Facades\DB;
-use Michelf\Markdown;
+//use Michelf\Markdown;
 
 class PostController extends Controller
 {
@@ -30,14 +30,15 @@ class PostController extends Controller
     }
 
     public function store(Request $request)
-    {   $post_html = Markdown::defaultTransform($request->content);
+	{   
+		// $post_html = Markdown::defaultTransform($request->content);
 		
         switch ($request->input('action')) {
             case 'save':
                 Post::create([
                     'title' => $request->title,
                     'content' => $request->content,
-                    'content_html' => $post_html,
+                    'content_html' => $request->content,
                     'preview' => $request->preview,
                     'user_id' => auth()->user()->id,
                 ]);
@@ -47,14 +48,15 @@ class PostController extends Controller
                 Post::create([
                     'title' => $request->title,
                     'content' => $request->content,
-                    'content_html' => $post_html,
+                    'content_html' => $request->content,
                     'preview' => $request->preview,
                     'user_id' => auth()->user()->id,
                     'is_moderated' => 1,
+					'is_published' => 1,
                 ]);
                 break;
         }
-        return back();
+        return redirect('/post');
     }
 
     public function show($id)
