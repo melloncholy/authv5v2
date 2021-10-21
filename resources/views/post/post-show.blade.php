@@ -5,38 +5,6 @@
         </h2>
     </x-slot>
 
-    {{-- <div class="content">
-        <div class="post-content">
-            <table class="table-fixed">
-                <tr>
-                    <td>{{ $post->title }}</td>
-                    <td>{!! $post->content !!}</td>
-                    <th>Author:</th>
-                    <td><a href="/profile/{{ $post->user_id }}">{{ $post->user->name }}</a></td>
-                    @if ($post->is_published == 1)
-                    <td>
-                        <a href="{{ route('like.post', ['id' => $post->id]) }}" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Likes:{{ $likes }}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ route('dislike.post', ['id' => $post->id]) }}" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Dislikes:{{ $dislikes }}
-                        </a>
-                    </td>
-                    <th>Published at:</th>
-                    <td>{{ $post->published_at }}</td>
-                    @else
-                    <td>
-                        <a href="{{ route('publish.post', ['id' => $post->id]) }}" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Publish
-                        </a>
-                    </td>
-                    @endif
-                </tr>
-              </table>
-        </div>
-    </div> --}}
 	<div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -52,6 +20,13 @@
                     <div class="mb-8">
                         <label class="text-xl text-gray-600">{!! $post->content !!}</label></br>
 					</div>
+					@foreach ($post->tags as $tag)
+					<div class="bg-blue-100 inline-flex items-center text-sm rounded mt-2 mr-1 overflow-hidden">
+						<a href="/search/{{ $tag->name }}"><span class="ml-2 mr-1 leading-relaxed truncate max-w-xs px-1" x-text="tag">{{ $tag->name }}</span></a>
+					</div>
+					@endforeach	
+					
+
 					@if($post->is_published == 1)
 					<div class="mb-8">
                         <label class="text-xl text-gray-600">{{ $post->published_at }}</label></br>
@@ -62,6 +37,7 @@
                     <a href="{{ route('dislike.post', ['id' => $post->id]) }}" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Dislikes:{{ $dislikes }}
                     </a></br>
+					
                     @else
                     <a href="{{ route('publish.post', ['id' => $post->id]) }}" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Publish

@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\Post\CategoryController;
 use App\Http\Controllers\Profile\ProfileSettingsController;
 use App\Http\Controllers\Profile\ShowProfileController;
 use App\Http\Controllers\Post\PostController;
@@ -79,6 +81,8 @@ Route::get('/post/moderation', [PostController::class, 'showUnpublished'])
 Route::get('/post/unpublished/{id}', [PostController::class, 'publish'])
     ->middleware('auth')
     ->name('publish.post');
+Route::get('/search/{tag}', [PostController::class, 'toTag']);
+
 Route::get('/post/{id}', [PostController::class, 'show'])
     ->middleware('auth');
 Route::get('/post/{id}/like', [MarkController::class, 'like'])
@@ -106,13 +110,22 @@ Route::get('/draft/{id}/publish', [DraftController::class, 'publish'])
     ->middleware('auth')
     ->name('publish.draft');
 
-Route::get('/users', [UserController::class, 'index'])
+Route::get('/admin/users', [UserController::class, 'index'])
     ->middleware('auth');
 Route::get('/users/create', [UserController::class, 'create'])
     ->middleware('auth');
 Route::post('/users/create', [UserController::class, 'store'])
     ->middleware('auth')
     ->name('create.user');
+
+Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/admin/categories', [AdminController::class, 'categoriesList']);
+
+Route::get('category/create', [CategoryController::class, 'create'])
+	->name('create.category');
+Route::post('/category/create', [CategoryController::class, 'store'])
+	->name('store.category');
+
 
 Route::get('/', function () {
     return view('welcome');

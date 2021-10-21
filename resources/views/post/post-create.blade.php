@@ -4,34 +4,6 @@
             {{ __('Post') }}
         </h2>
     </x-slot>
-    {{-- <form method="POST" action="{{ route('store.post') }}" enctype="multipart/form-data">
-        @csrf
-        <div class="w-full md:w-1/2 px-3">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" class="form-control">
-			<input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="title" type="text" placeholder="Title">
-        </div>
-        <div class="w-full md:w-1/2 px-3">
-            <label for="preview">Preview:</label>
-            <textarea placeholder="Preview" name = "preview"></textarea>
-			<input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="preview" type="text" placeholder="Preview">
-        </div>
-        <div class="w-full md:w-1/2 px-3">
-            <label for="content">Text:</label>
-            <textarea placeholder="Text" name = "content"></textarea>
-			<input class="appearance-none block	break-words w-full md:h-64 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="text" type="text" placeholder="Text">
-        </div>
-
-		
-        <div class="w-full md:w-1/2 px-3">
-            <label for="tag">Tags:</label>
-            <input type="placeholder" id="tag" name="tag" class="form-control">
-			<input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="tags" type="text" placeholder="Tags">
-        </div>
-		
-        <button type="submit"  name="action" value="save" class="btn btn-primary">Save</button>
-        <button type="submit"  name="action" value="publish" class="btn btn-primary">Publish</button>
-    </form> --}}
 
 	<div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -54,6 +26,11 @@
                             <textarea name="content" class="border-2 border-gray-500">
                                 
                             </textarea>
+                        </div>
+
+						<div class="mb-4">
+                            <label class="text-xl text-gray-600">Tags</label></br>
+                            <input type="text" class="border-2 border-gray-300 p-2 w-full" name="tag" id="tag" placeholder="Хэштеги через #">
                         </div>
 
                         <div class="flex p-1">

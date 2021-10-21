@@ -42,6 +42,30 @@ class PostController extends Controller
                     'preview' => $request->preview,
                     'user_id' => auth()->user()->id,
                 ]);
+				
+				$tags = explode("#", $request->tag);
+
+				foreach ($tags as $tag) {
+					$query = Tag::where('name', '=', $tag)->exists();
+
+					if (!$query) {
+						Tag::create([
+							'name' => $tag,
+						]);
+					}
+					
+					$tag_id = Tag::where('name', '=', $tag)
+						->first();
+					$post_id = Post::pluck('id')
+            			->last();
+					
+					DB::table('post_tag')->insert([
+						'post_id' => $post_id,
+						'tag_id' => $tag_id->id, 
+					]);
+					
+				}
+				
                 break;
 
             case 'publish':
@@ -52,8 +76,30 @@ class PostController extends Controller
                     'preview' => $request->preview,
                     'user_id' => auth()->user()->id,
                     'is_moderated' => 1,
-					'is_published' => 1,
                 ]);
+
+				$tags = explode("#", $request->tag);
+
+				foreach ($tags as $tag) {
+					$query = Tag::where('name', '=', $tag)->exists();
+
+					if (!$query) {
+						Tag::create([
+							'name' => $tag,
+						]);
+					}
+					
+					$tag_id = Tag::where('name', '=', $tag)
+						->first();
+					$post_id = Post::pluck('id')
+            			->last();
+					
+					DB::table('post_tag')->insert([
+						'post_id' => $post_id,
+						'tag_id' => $tag_id->id, 
+					]);
+					
+				}
                 break;
         }
         return redirect('/post');
@@ -63,6 +109,7 @@ class PostController extends Controller
     {
 
         $post = Post::find($id);
+		
         $this->authorize('view', $post);
         $comments = Comment::where('post_id', '=', $post->id)
             ->get();
@@ -72,6 +119,8 @@ class PostController extends Controller
         $dislikes = Mark::where('post_id', '=', $id)
             ->where('dislikes', '=', 1)
             ->count();
+
+			
         return view('post.post-show', compact('post', 'comments', 'likes', 'dislikes'));
     }
 
@@ -94,4 +143,18 @@ class PostController extends Controller
 
         return redirect('post/moderation');
     }
+
+	public function toTag($tag)
+	{
+
+		$posts = Post::where('is_published', '=', 1)
+			->with(['user'])
+			->whereHas('tags', function ($query) use ($tag) {
+				$query->where('name', 'like', $tag);
+			})
+            ->orderBy('published_at', 'desc')
+            ->paginate(10);
+
+		return view('post.to-tag', ['posts' => $posts]);
+	}
 }
