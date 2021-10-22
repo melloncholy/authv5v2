@@ -26,4 +26,12 @@ class CategoryController extends Controller
 
 		return redirect('/admin/categories');
 	}
+
+	public function edit($id)
+	{	
+		$category = Category::find($id);
+		//dd($category);
+
+		return view('admin.categories-edit', ['category' => $category]);
+	}
 }

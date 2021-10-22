@@ -125,7 +125,8 @@ Route::get('category/create', [CategoryController::class, 'create'])
 	->name('create.category');
 Route::post('/category/create', [CategoryController::class, 'store'])
 	->name('store.category');
-
+Route::get('/category/edit/{id}', [CategoryController::class, 'edit']);
+Route::delete('/category/{id}/delete', [CategoryController::class, 'delete']);
 
 Route::get('/', function () {
     return view('welcome');

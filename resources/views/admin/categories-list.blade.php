@@ -18,8 +18,10 @@
             		@foreach ($categories as $category)
                     		{{-- <td><a href="/post/{{ $post->id }}" class="text-blue-500">{{  $post->title }}</a></td> --}}
                    			
-					<div class="mb-4">
-						<label class="text-xl text-blue-600">{{ $category->name }}</label></br>
+					<div class="relative mb-4">
+						<label class="text-xl text-blue-600">{{ $category->name }}</label>
+						<a href="/category/edit/{{ $category->id }}" class="absolute bottom-5 right-20 border-2 border-gray-300 border-r py-2 px-4 rounded-lg bg-primary" name="editCategory" class="btn btn-primary">Edit</a><br>
+						<a href="/category/{{ $category->id }}/delete" class="absolute bottom-5 right-0 border-2 border-gray-300 border-r py-2 px-4 rounded-lg bg-primary" name="deleteCategory" class="btn btn-primary">Delete</a><br>
 					</div>
                 	@endforeach
         		</div>
