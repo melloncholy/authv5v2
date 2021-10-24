@@ -30,8 +30,23 @@ class CategoryController extends Controller
 	public function edit($id)
 	{	
 		$category = Category::find($id);
-		//dd($category);
 
 		return view('admin.categories-edit', ['category' => $category]);
+	}
+
+	public function update(Request $request, $id) 
+	{
+		$request->validate([
+			'name' => 'required|unique:categories|max:255',
+		]);
+
+		$category = Category::find($id);
+		$category->name = $request->name;
+		$category->save();
+
+		return redirect('/admin/categories');
+
+
+
 	}
 }

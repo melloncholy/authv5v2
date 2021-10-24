@@ -76,7 +76,7 @@ Route::get('/post/create', [PostController::class, 'create'])
 Route::post('/post/store', [PostController::class, 'store'])
     ->middleware('auth')
     ->name('store.post');
-Route::get('/post/moderation', [PostController::class, 'showUnpublished'])
+Route::get('/admin/moderation', [PostController::class, 'showUnpublished'])
     ->middleware('auth');
 Route::get('/post/unpublished/{id}', [PostController::class, 'publish'])
     ->middleware('auth')
@@ -97,18 +97,16 @@ Route::post('post/send/{id}', [CommentController::class, 'create'])
     ->middleware('auth')
     ->name('send.comment');
 
-Route::get('/draft', [DraftController::class, 'index'])
-    ->middleware('auth');
-Route::get('/draft/{id}', [DraftController::class, 'show'])
-    ->middleware('auth');
-Route::get('/draft/{id}/edit', [DraftController::class, 'edit'])
-    ->middleware('auth');
-Route::post('/draft/{id}', [DraftController::class, 'update'])
-    ->middleware('auth')
-    ->name('update.draft');
-Route::get('/draft/{id}/publish', [DraftController::class, 'publish'])
-    ->middleware('auth')
-    ->name('publish.draft');
+Route::prefix('draft')->middleware('auth')->group(function () {
+
+	Route::get('/', [DraftController::class, 'index']);
+	Route::get('/{id}', [DraftController::class, 'show']);
+	Route::get('/{id}/edit', [DraftController::class, 'edit']);
+	Route::post('/{id}', [DraftController::class, 'update'])
+    	->name('update.draft');
+	Route::get('/{id}/publish', [DraftController::class, 'publish'])
+    	->name('publish.draft');
+});
 
 Route::get('/admin/users', [UserController::class, 'index'])
     ->middleware('auth');
@@ -126,6 +124,8 @@ Route::get('category/create', [CategoryController::class, 'create'])
 Route::post('/category/create', [CategoryController::class, 'store'])
 	->name('store.category');
 Route::get('/category/edit/{id}', [CategoryController::class, 'edit']);
+Route::post('/category/edit/{id}', [CategoryController::class, 'update'])
+	->name('update.category');
 Route::delete('/category/{id}/delete', [CategoryController::class, 'delete']);
 
 Route::get('/', function () {
